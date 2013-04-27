@@ -1,13 +1,13 @@
 ### itunes_video: a gem to import and organize your video collection in iTunes. Mac OS X only.
 
-### Build from source:
+### build from source:
 
 ```bash
 gem build itunes_video.gemspec
 sudo gem install ./itunes_video-x.x.x.gem
 ```
 
-### Usage:
+### usage:
 
 ```ruby
 require 'itunes_video'
@@ -20,4 +20,4 @@ p v.kind # => "tv show"
 p v.season_num # => 2
 ```
 
-See itunes_video.rb for the full list.
+see itunes_video.rb for the full list.

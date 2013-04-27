@@ -1,6 +1,3 @@
-#!/usr/bin/env ruby
-
-# utility methods
 class Itunes_video
 
   require 'pathname'
