@@ -1,4 +1,4 @@
-### itunes_video: a gem to import and organize your video collection in iTunes. Mac OS X only.
+### itunes_video: a gem to import and organize your video collection in iTunes. OS X only.
 
 ### build from source:
 
