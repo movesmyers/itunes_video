@@ -7,8 +7,8 @@ class Itunes_video
    
   def initialize(file)
     if !(Pathname.new file).absolute?
-      if File.exist?(FileUtils.pwd + "/" + file)
-        file = FileUtils.pwd + "/" + file
+      if File.exist?(File.join(FileUtils.pwd, file))
+        file = File.join(FileUtils.pwd, file)
       else
         raise "could not find video to import"
       end
