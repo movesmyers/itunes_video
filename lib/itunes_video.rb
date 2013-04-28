@@ -79,6 +79,7 @@ class Itunes_video
   end
 
   def unplayed=(unplayed)
+    unplayed = unplayed.downcase
     if !["true", "false"].include? unplayed
       raise TypeError, "unplayed must be 'true' or 'false'"
     elsif  `osascript -e 'tell application \"iTunes\" to set unplayed of file track id #{@id} to \"#{unplayed}\"'` 
