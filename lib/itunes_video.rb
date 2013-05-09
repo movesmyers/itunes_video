@@ -90,10 +90,9 @@ class Itunes_video
   end
 
   def rating=(rating)
-    rating_int = rating.to_i
-    if !rating_int.between?(0,100)
+    if !rating.to_i.between?(0,100)
       raise "rating must be between 0 and 100"
-    elsif `osascript -e 'tell application \"iTunes\" to set rating of file track id #{@id} to #{rating_int}'`
+    elsif `osascript -e 'tell application \"iTunes\" to set rating of file track id #{@id} to #{rating.to_i}'`
       @rating = rating
     else  
       raise "could not set 'rating' for video"
