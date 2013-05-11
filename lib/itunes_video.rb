@@ -3,7 +3,7 @@ class Itunes_video
   require 'pathname'
   require 'fileutils'
 
-  attr_accessor :id, :kind, :name, :genre, :year, :description, :comment, :unplayed, :played_count, :rating, :season_num, :episode_num, :show_name
+  attr_accessor :id, :kind, :category, :name, :genre, :year, :description, :comment, :unplayed, :played_count, :rating, :season_num, :episode_num, :show_name
    
   def initialize(file)
     if !(Pathname.new file).absolute?
@@ -31,6 +31,14 @@ class Itunes_video
       else
         raise "could not set 'kind' for video"
       end
+    end
+  end
+
+  def category=(category)
+    if `osascript -e 'tell application \"iTunes\" to set category of file track id #{@id} to \"#{category}\"'`
+      @category = category
+    else
+      raise "could not set 'category' for video"
     end
   end
 
