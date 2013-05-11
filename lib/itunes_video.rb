@@ -3,7 +3,7 @@ class Itunes_video
   require 'pathname'
   require 'fileutils'
 
-  attr_accessor :id, :kind, :name, :genre, :year, :description, :comment, :unplayed, :rating, :season_num, :episode_num, :show_name
+  attr_accessor :id, :kind, :name, :genre, :year, :description, :comment, :unplayed, :played_count, :rating, :season_num, :episode_num, :show_name
    
   def initialize(file)
     if !(Pathname.new file).absolute?
@@ -86,6 +86,14 @@ class Itunes_video
       @unplayed = unplayed
     else 
       raise "could not set 'unplayed' for video"
+    end
+  end
+
+  def played_count=(played_count)
+    if `osascript -e 'tell application \"iTunes\" to set played count of file track id #{@id} to #{played_count.to_i}'`
+      @played_count = played_count
+    else
+      raise "could not set 'played count' for video"
     end
   end
 
