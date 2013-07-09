@@ -3,8 +3,8 @@ class Itunes_video
   require 'pathname'
   require 'fileutils'
 
-  attr_accessor :id, :kind, :category, :name, :genre, :year, :description, :comment, :unplayed, :played_count, :rating, :season_num, :episode_num, :show_name
-   
+  attr_accessor :id, :kind, :category, :name, :genre, :year, :description, :long_description, :comment, :unplayed, :played_count, :rating, :season_num, :episode_num, :show_name
+  
   def initialize(file)
     if !(Pathname.new file).absolute?
       if File.exist?(File.join(FileUtils.pwd, file))
@@ -75,6 +75,14 @@ class Itunes_video
       @description = desc
     else
       raise "could not set 'description' for video"
+    end
+  end
+  
+  def long_description=(long_desc)
+    if `osascript -e 'tell application \"iTunes\" to set long description of file track id #{@id} to \"#{long_desc}\"'` 
+      @long_description = long_desc
+    else
+      raise "could not set 'long description' for video"
     end
   end
 
