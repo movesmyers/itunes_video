@@ -1,9 +1,16 @@
+##
+# The entire gem is contained in the Itunes_video class. 
+
 class Itunes_video
 
   require 'pathname'
   require 'fileutils'
 
   attr_accessor :id, :kind, :category, :name, :genre, :year, :description, :long_description, :comment, :unplayed, :played_count, :rating, :season_num, :episode_num, :show_name
+  
+  ##
+  # The initialize method imports the video into iTunes and returns an iTunes
+  # track ID, which is used to identify the video for the other methods. 
   
   def initialize(file)
     if !(Pathname.new file).absolute?
@@ -20,6 +27,10 @@ class Itunes_video
       @id = import.split(" ")[3]
     end
   end
+  
+  ##
+  # Set the 'kind' for the video. 
+  # Must be one of ["tv show", "movie", "music video", "none"]
 
   def kind=(kind)
     kinds = ["tv show", "movie", "music video", "none"]
@@ -33,6 +44,9 @@ class Itunes_video
       end
     end
   end
+  
+  ##
+  # Set the 'category' for the video. 
 
   def category=(category)
     if `osascript -e 'tell application \"iTunes\" to set category of file track id #{@id} to \"#{category}\"'`
@@ -42,7 +56,11 @@ class Itunes_video
     end
   end
 
-  # sets episode name for tv show or movie title for movie
+  ##
+  # Set the 'name' for the video. 
+  # Sets episode name for a video of kind 'tv show' 
+  # Sets movie title for a video of kind 'movie'
+  
   def name=(name)
     if `osascript -e 'tell application \"iTunes\" to set name of file track id #{@id} to \"#{name}\"'` 
       @name = name
@@ -50,6 +68,9 @@ class Itunes_video
       raise "could not set 'name' for video"
     end
   end
+  
+  ##
+  # Set the 'genre' for the video. 
 
   def genre=(genre)
     if `osascript -e 'tell application \"iTunes\" to set genre of file track id #{@id} to \"#{genre}\"'` 
@@ -58,6 +79,10 @@ class Itunes_video
       raise "could not set 'genre' for video"
     end
   end
+  
+  ##
+  # Set the 'year' for the video. 
+  # Must be a four digit number or a string with four numbers. 
 
   def year=(year)
     year = year.to_s
@@ -69,6 +94,9 @@ class Itunes_video
       raise "could not set 'year' for video"
     end
   end
+  
+  ##
+  # Set the 'description' for the video. 
 
   def description=(desc)
     if `osascript -e 'tell application \"iTunes\" to set description of file track id #{@id} to \"#{desc}\"'` 
@@ -78,6 +106,9 @@ class Itunes_video
     end
   end
   
+  ##
+  # Set the 'long description' for the video. 
+  
   def long_description=(long_desc)
     if `osascript -e 'tell application \"iTunes\" to set long description of file track id #{@id} to \"#{long_desc}\"'` 
       @long_description = long_desc
@@ -85,6 +116,9 @@ class Itunes_video
       raise "could not set 'long description' for video"
     end
   end
+  
+  ##
+  # Set the 'comment' for the video. 
 
   def comment=(comment)
     if `osascript -e 'tell application \"iTunes\" to set comment of file track id #{@id} to \"#{comment}\"'` 
@@ -93,6 +127,10 @@ class Itunes_video
       raise "could not set 'comment' for video"
     end  
   end
+
+  ##
+  # Set 'uplayed' for the video. 
+  # Must be either 'true' or 'false'
 
   def unplayed=(unplayed)
     unplayed = unplayed.downcase
@@ -104,6 +142,9 @@ class Itunes_video
       raise "could not set 'unplayed' for video"
     end
   end
+  
+  ##
+  # Set the 'played count' for the video. 
 
   def played_count=(played_count)
     if `osascript -e 'tell application \"iTunes\" to set played count of file track id #{@id} to #{played_count.to_i}'`
@@ -112,6 +153,10 @@ class Itunes_video
       raise "could not set 'played count' for video"
     end
   end
+  
+  ##
+  # Set the 'rating' for the video. 
+  # Must be a number between 0 and 100.
 
   def rating=(rating)
     if !rating.to_i.between?(0,100)
@@ -122,8 +167,12 @@ class Itunes_video
       raise "could not set 'rating' for video"
     end
   end
-
-  # tv show specific methods
+  
+  # :section: tv show-specific methods
+  
+  ##
+  # Set the 'season number' for a video of type 'tv show'. 
+  
   def season_num=(season_num)
     if `osascript -e 'tell application \"iTunes\" to set season number of file track id #{@id} to #{season_num.to_i}'`
       @season_num = season_num
@@ -132,6 +181,9 @@ class Itunes_video
     end
   end
 
+  ##
+  # Set the 'episode number' for a video of type 'tv show'. 
+  
   def episode_num=(episode_num)
     if `osascript -e 'tell application \"iTunes\" to set episode number of file track id #{@id} to \"#{episode_num.to_i}\"'`
       @episode_num = episode_num
@@ -140,6 +192,9 @@ class Itunes_video
     end
   end
 
+  ##
+  # Set the 'show name' for a video of type 'tv show'. 
+  
   def show_name=(show_name)
     if `osascript -e 'tell application \"iTunes\" to set show of file track id #{@id} to \"#{show_name}\"'` 
       @show_name = show_name
