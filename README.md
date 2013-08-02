@@ -20,4 +20,4 @@ p v.kind # => "tv show"
 p v.season_num # => 2
 ```
 
-see itunes_video.rb for the full list.
+Read the RDoc for a full list of attributes.
