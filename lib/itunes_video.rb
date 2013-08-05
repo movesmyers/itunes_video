@@ -35,7 +35,7 @@ class Itunes_video
   def kind=(kind)
     kinds = ["tv show", "movie", "music video", "none"]
     if !kinds.include?(kind)
-      raise "video kind must be one of: #{kinds}"
+      raise "video kind must be one of: #{kinds.join(', ')}"
     else
       if `osascript -e 'tell application \"iTunes\" to set video kind of file track id #{@id} to #{kind}'`
         @kind = kind
