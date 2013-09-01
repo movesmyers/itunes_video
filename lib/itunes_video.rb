@@ -6,7 +6,7 @@ class Itunes_video
   require 'pathname'
   require 'fileutils'
 
-  attr_accessor :id, :kind, :category, :name, :genre, :year, :description, :long_description, :comment, :unplayed, :played_count, :rating, :season_num, :episode_num, :show_name
+  attr_accessor :id, :kind, :category, :name, :genre, :year, :description, :long_description, :comment, :unplayed, :played_count, :rating, :artwork, :season_num, :episode_num, :show_name
   
   ##
   # The initialize method imports the video into iTunes and returns an iTunes
@@ -164,6 +164,27 @@ class Itunes_video
       @rating = rating
     else  
       raise "could not set 'rating' for video"
+    end
+  end
+  
+  ##
+  # A list of file formats that Image Events can read from is as follows:
+  # PICT, Photoshop, BMP, QuickTime Image, GIF, JPEG, MacPaint, JPEG2, SGI, PSD, TGA, Text, PDF, PNG, and TIFF. 
+  # Trying to set artwork not of one of these types will throw a -206 error.
+  
+  def artwork=(artwork)
+    if !File.exists?(artwork)
+      raise "file '#{artwork}' does not exist"
+    elsif 
+      `osascript <<EOF
+      tell application "iTunes"
+         set the_artwork to read (POSIX file \"#{artwork}\") as picture
+         set data of artwork 1 of file track id #{@id} to the_artwork
+      end tell
+      EOF`
+      @artwork = artwork
+    else  
+      raise "could not set 'artwork' for video"
     end
   end
   
