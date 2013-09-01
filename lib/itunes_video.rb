@@ -11,6 +11,9 @@ class Itunes_video
   ##
   # The initialize method imports the video into iTunes and returns an iTunes
   # track ID, which is used to identify the video for the other methods. 
+  #
+  # If the file supplied is not a full path, look for the file relative to the 
+  # working directory before bailing out.
   
   def initialize(file)
     if !(Pathname.new file).absolute?
@@ -169,14 +172,22 @@ class Itunes_video
   
   ##
   # A list of file formats that Image Events can read from is as follows:
-  # PICT, Photoshop, BMP, QuickTime Image, GIF, JPEG, MacPaint, JPEG2, SGI, PSD, TGA, Text, PDF, PNG, and TIFF. 
+  # PICT, Photoshop, BMP, QuickTime Image, GIF, JPEG, 
+  # MacPaint, JPEG2, SGI, PSD, TGA, Text, PDF, PNG, and TIFF. 
   # Trying to set artwork not of one of these types will throw a -206 error.
+  #
+  # If the file supplied is not a full path, look for the file relative to the 
+  # working directory before bailing out.
   
   def artwork=(artwork)
-    if !File.exists?(artwork)
-      raise "file '#{artwork}' does not exist"
-    elsif 
-      `osascript <<EOF
+    if !(Pathname.new artwork).absolute?
+      if File.exist?(File.join(FileUtils.pwd, artwork))
+        artwork = File.join(FileUtils.pwd, artwork)
+      else
+        raise "could not find '#{artwork}' to set"
+      end
+    end
+    if `osascript <<EOF
       tell application "iTunes"
          set the_artwork to read (POSIX file \"#{artwork}\") as picture
          set data of artwork 1 of file track id #{@id} to the_artwork
