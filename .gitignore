@@ -1,9 +1,5 @@
 .DS_Store
-build/*
+pkg/*
 *.mp4
 *.rb
-
-# YARD artifacts
-.yardoc
-_yardoc
-doc/*
+.yardoc/*
