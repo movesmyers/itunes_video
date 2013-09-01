@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'itunes_video'
-  s.version     = '0.4.1'
+  s.version     = '0.4.2'
   s.date        = Time.now.strftime("%Y-%m-%d")
   s.summary     = "Import and organize videos in iTunes"
   s.description = "A gem to import and organize your video collection in iTunes. OS X only."
